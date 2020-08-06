@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>Todo App</title>
-   
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- Setting the viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,63 +22,110 @@
   <body>
     <div class="container">
       <div class="header clearfix">
-        <div class="date">
-          <p>
-          <span id="day"></span>,
-          <span id="date"></span>
-          </p>
-          <p id="month">
-          </p>
+        <div class="for-max-width">
+          <div class="date">
+            <p>
+              <span id="day"></span>,
+              <span id="date"></span>
+            </p>
+            <p id="month"></p>
+          </div>
+          <div class="remaining-class">
+            <span id="remaining-class-number"></span>
+            Tasks
+          </div>
         </div>
-        <div class="remaining-class">
-        <span id="remaining-class-number"></span>
-         Tasks
-        </div>
-        
-        </div>
-        <div><hr>
-       <span class="float-item">Add Item</span> </div>
-       <br>
-        <input class="new-task" id="new-task" type="text" /><button>Add</button>
-      </p>
-	  <div><hr>
-		<span class="float-item">Add Item</span> </div>
-      <ul id="incomplete-tasks">
-        <li class="clearfix">
-		  <input type="checkbox" />
-		  <label>Pay Bills</label>
-		  <input type="text" />
-		  <button class="edit"><img src="img/edit-icon.png" alt="EDIT"></button>
-		  <button class="delete"><img src="img/delete-icon.png" alt="DELETE"></button>
-        </li>
-        <li class="clearfix">
-          <input type="checkbox" /><label>Go Shopping</label
-          ><input type="text" value="Go Shopping" /><button class="edit">
-            <img src="img/edit-icon.png" alt="EDIT"></button
-          ><button class="delete"><img src="img/delete-icon.png" alt="DELETE"></button>
-        </li>
-      </ul>
-	  <div><hr>
-		<span class="float-item">Add Item</span> </div>
-        <ul id="completed-tasks">
-        <li>
-          <input type="checkbox" checked /><label class="completed">See the Doctor</label
-          ><input type="text" /><button class="edit"><img src="img/edit-icon.png" alt="EDIT"></button
-          ><button class="delete"><img src="img/delete-icon.png" alt="DELETE"></button>
-        </li>
-      </ul>
+      </div>
+      <div>
+        <hr />
+        <span class="float-item">Add Item</span>
+      </div>
+      <br />
+      <div class="add-task for-max-width">
+        <input class="new-task" id="new-task" type="text" /><button class="add">
+          <i class="fa fa-plus plus"></i>
+        </button>
+      </div>
+      <div>
+        <hr />
+        <span class="float-item">TO-DO</span>
+      </div>
+      <div class="for-max-width">
+        <ul id="incomplete-tasks">
+          <li class="clearfix">
+            <label class="checkbox"
+              >Pay Bills <input type="checkbox" /><span class="checkmark"></span
+            ></label>
+            <button class="edit">
+              <img src="img/edit-icon.png" alt="EDIT" />
+            </button>
+            <button class="delete">
+              <img src="img/delete-icon.png" alt="DELETE" />
+            </button>
+          </li>
+          <li class="clearfix">
+            <label class="checkbox"
+              >Go Shopping <input type="checkbox" /><span
+                class="checkmark"
+              ></span></label
+            ><input type="text" value="Go Shopping" /><button class="edit">
+              <img src="img/edit-icon.png" alt="EDIT" /></button
+            ><button class="delete">
+              <img src="img/delete-icon.png" alt="DELETE" />
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <hr />
+        <span class="float-item">DONE</span>
+      </div>
+      <div class="for-max-width">
+        <ul id="completed-tasks ">
+          <li>
+            <label class="checkbox completed"
+              >See the Doctor<input type="checkbox" checked /><span
+                class="checkmark"
+              ></span
+            ></label>
+            <input type="text" /><button class="edit">
+              <img src="img/edit-icon.png" alt="EDIT" /></button
+            ><button class="delete">
+              <img src="img/delete-icon.png" alt="DELETE" />
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <script>
-      var date= new Date();
-      var days=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
-      var months=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October","November","December"];
-      document.getElementById("day").innerHTML=days[date.getDay()];
+      var date = new Date();
+      var days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ];
+      var months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+      document.getElementById("day").innerHTML = days[date.getDay()];
       document.getElementById("date").innerHTML = date.getDate();
-      document.getElementById("month").innerHTML=months[date.getMonth()];   
-
-
-
+      document.getElementById("month").innerHTML = months[date.getMonth()];
     </script>
   </body>
 </html>
