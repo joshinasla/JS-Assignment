@@ -41,58 +41,18 @@
         <span class="float-item">Add Item</span>
       </div>
       <br />
-      <div class="add-task for-max-width">
-        <input class="new-task" id="new-task" type="text" /><button id="enter" class="add">
-          <i class="fa fa-plus plus"></i>
-        </button>
+      <div id="add-tasks" class="add-task">
+        <input type="text" id="myInput" placeholder="What do you want to do...">
+        <button onclick="newElement()" class="add-button">Add</button>
       </div>
-      <div>
-        <hr />
-        <span class="float-item">TO-DO</span>
-      </div>
-      <div class="for-max-width">
-        <ul id="incomplete-tasks">
-          <li class="clearfix">
-            <label class="checkbox" id="checkbox"
-              >Pay Bills <input type="checkbox" /></span
-            ></label>
-            <button class="edit">
-              <img src="img/edit-icon.png" alt="EDIT" />
-            </button>
-            <button class="delete">
-              <img src="img/delete-icon.png" alt="DELETE" />
-            </button>
-          </li>
-          <li class="clearfix">
-            <label class="checkbox"
-              >Go Shopping <input type="checkbox" /></span></label
-            ><input type="text" value="Go Shopping" /><button class="edit">
-              <img src="img/edit-icon.png" alt="EDIT" /></button
-            ><button class="delete">
-              <img src="img/delete-icon.png" alt="DELETE" />
-            </button>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <hr />
-        <span class="float-item">DONE</span>
-      </div>
-      <div class="for-max-width">
-        <ul id="completed-tasks ">
-          <li>
-            <label class="checkbox completed"
-              >See the Doctor<input type="checkbox" checked />
-            </label>
-            <input type="text" /><button class="edit">
-              <img src="img/edit-icon.png" alt="EDIT" /></button
-            ><button class="delete">
-              <img src="img/delete-icon.png" alt="DELETE" />
-            </button>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <script src="myScript.js"></script>
-  </body>
+      
+      <ul id="my-tasks">
+        <li>Hit the gym</li>
+        <li class="checked">Pay bills</li>
+        <li>Meet George</li>
+        <li>Buy eggs</li>
+        <li>Read a book</li>
+        <li>Organize office</li>
+      </ul>
+      
 </html>
