@@ -42,7 +42,7 @@
       </div>
       <br />
       <div class="add-task for-max-width">
-        <input class="new-task" id="new-task" type="text" /><button class="add">
+        <input class="new-task" id="new-task" type="text" /><button id="enter" class="add">
           <i class="fa fa-plus plus"></i>
         </button>
       </div>
@@ -53,8 +53,8 @@
       <div class="for-max-width">
         <ul id="incomplete-tasks">
           <li class="clearfix">
-            <label class="checkbox"
-              >Pay Bills <input type="checkbox" /><span class="checkmark"></span
+            <label class="checkbox" id="checkbox"
+              >Pay Bills <input type="checkbox" /></span
             ></label>
             <button class="edit">
               <img src="img/edit-icon.png" alt="EDIT" />
@@ -65,9 +65,7 @@
           </li>
           <li class="clearfix">
             <label class="checkbox"
-              >Go Shopping <input type="checkbox" /><span
-                class="checkmark"
-              ></span></label
+              >Go Shopping <input type="checkbox" /></span></label
             ><input type="text" value="Go Shopping" /><button class="edit">
               <img src="img/edit-icon.png" alt="EDIT" /></button
             ><button class="delete">
@@ -84,10 +82,8 @@
         <ul id="completed-tasks ">
           <li>
             <label class="checkbox completed"
-              >See the Doctor<input type="checkbox" checked /><span
-                class="checkmark"
-              ></span
-            ></label>
+              >See the Doctor<input type="checkbox" checked />
+            </label>
             <input type="text" /><button class="edit">
               <img src="img/edit-icon.png" alt="EDIT" /></button
             ><button class="delete">
@@ -97,35 +93,6 @@
         </ul>
       </div>
     </div>
-
-    <script>
-      var date = new Date();
-      var days = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ];
-      var months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ];
-      document.getElementById("day").innerHTML = days[date.getDay()];
-      document.getElementById("date").innerHTML = date.getDate();
-      document.getElementById("month").innerHTML = months[date.getMonth()];
-    </script>
+    <script src="app.js"></script>
   </body>
 </html>

@@ -163,16 +163,14 @@ ul li.editMode label {
 }
 .checkbox {
   display: block;
-  position: relative;
+
   padding-left: 35px;
   cursor: pointer;
 }
 .checkbox input {
-  position: absolute;
-  opacity: 0;
   cursor: pointer;
-  height: 0;
-  width: 0;
+  height: 20px;
+  width: 20px;
 }
 
 .checkmark {
