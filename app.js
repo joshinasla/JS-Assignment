@@ -25,47 +25,64 @@ var months = [
 document.getElementById("day").innerHTML = days[date.getDay()];
 document.getElementById("date").innerHTML = date.getDate();
 document.getElementById("month").innerHTML = months[date.getMonth()];
-var closeButton = documnet.getElementsByTagName("LI");
-var i;
-for (i = 0; i < closeButton.length; i++) {
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "delete";
-  span.appendChild(txt);
-  closeButton[i].appendChild(span);
+var enterButton = document.getElementById("enter");
+var input = document.getElementById("userInput");
+var ul = document.querySelector("ul");
+var item = document.getElementsByTagName("li");
+var i = 0;
+
+function inputLength() {
+  return input.value.length;
 }
-function newElement() {
-  console.log("add task...");
-  var inputValue = taskInput.value;
-  console.log("Element: " + inputValue);
-  var listItem = document.createTextNode(inputValue);
-  var newItem = document.createElement("li");
-  var checkbox = document.createElement("checkbox");
-  newItem.appendChild(checkbox);
-  newItem.appendChild(listItem);
-  //   var editButton = document.createElement("button");
-  //   newItem.appendChild(editButton);
-  //   var deleteButton = document.createElement("button");
-  //   newItem.appendChild(deleteButton);
-  document.getElementById("new-task").value = "";
-  //   document.getElementById("incomplete-tasks"). = listItem;
-  incompleteTasks.appendChild(newItem);
+
+function listLength() {
+  return item.length;
 }
-var close = document.getElementsByClassName("delete");
-var i;
-for (i = 0; i < close.length; i++) {
-  close[i].onclick = function () {
-    var div = this.parentElement;
-    div.style.display = "none";
-  };
+
+function createListElement() {
+  var li = document.createElement("li");
+  li.appendChild(document.createTextNode(input.value));
+  ul.appendChild(li);
+  input.value = "";
+
+  function crossOut() {
+    li.classList.toggle("done");
+    i--;
+  }
+
+  li.addEventListener("click", crossOut);
+
+  var dBtn = document.createElement("button");
+  dBtn.appendChild(document.createTextNode("X"));
+  li.appendChild(dBtn);
+  dBtn.addEventListener("click", deleteListItem);
+
+  function deleteListItem() {
+    li.classList.add("delete");
+  }
+  var eBtn = document.creatElement("button");
+  eBtn.appendChild(document.createTextNode("-"));
+  li.appendChild(eBtn);
+  eBtn.addEventListener("click", editListItem);
+  function editListItem() {
+    li.classList.add("edit");
+  }
+  i++;
 }
-var list = document.querySelector("ul");
-list.addEventListener(
-  "click",
-  function (ev) {
-    if (ev.target.tagName === "LI") {
-      ev.target.classList.toggle("checked");
-    }
-  },
-  false
-);
+
+function addListAfterClick() {
+  if (inputLength() > 0) {
+    createListElement();
+  }
+}
+
+function addListAfterKeypress(event) {
+  if (inputLength() > 0 && event.which === 13) {
+    createListElement();
+  }
+}
+
+enterButton.addEventListener("click", addListAfterClick);
+
+input.addEventListener("keypress", addListAfterKeypress);
+document.getElementById("day").innerHTML = days[date.getDay()];
