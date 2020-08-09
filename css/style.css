@@ -130,8 +130,8 @@ input:focus {
   color: #a4a4a4;
 }
 .todo_toggle {
-  height: 2em;
-  width: 2em;
+  height: 30px;
+  width: 36px;
   border: 2px solid #8e102d;
   border-radius: 10px;
   transition: 0.3s;
@@ -152,8 +152,26 @@ input:focus {
   padding: 5px;
   border-radius: 5px;
   color: white;
+  padding-left: 5px;
 }
 
+.edit_btn {
+  display: inline-block;
+  text-align: center;
+  height: 2em;
+  width: 2em;
+  line-height: 2em;
+  transition: 0.3s;
+  background-color: #f17f9a;
+  padding: 5px;
+  border-radius: 5px;
+  color: white;
+  margin-right: 5px;
+}
+.edit_btn:hover {
+  cursor: pointer;
+  color: #f1b07e;
+}
 .delete_btn:hover {
   cursor: pointer;
   color: crimson;

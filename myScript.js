@@ -29,7 +29,7 @@ document.getElementById("month").innerHTML = months[date.getMonth()];
   var todoList = {
     todoData: localStorage.getItem("Todos"),
     addBtn: document.getElementById("addBtn"),
-    // editBtn: document.getElementById("editBtn"),
+    editBtn: document.getElementById("editBtn"),
     newTodo: document.getElementById("newTodo"),
     todos: [],
     init: function () {
@@ -48,11 +48,22 @@ document.getElementById("month").innerHTML = months[date.getMonth()];
       console.log(todoText);
       this.saveTodos();
     },
+    addTodoEditData: function (todoText) {
+      this.todos.push({
+        todoText: todoText,
+        id: new Date().getUTCMilliseconds(),
+        completed: true,
+      });
+      console.log(todoText);
+      this.saveTodos();
+    },
     createTodoItem: function (todoObj) {
       //  Create  dom nodes/html elements for a single todo item
       var todo = document.createElement("div"),
         todo_toggle = document.createElement("div"),
         todo_text = document.createElement("input"),
+        edit_btn = document.createElement("span"),
+        edit_icon = document.createElement("i"),
         delete_btn = document.createElement("span"),
         delete_icon = document.createElement("i");
 
@@ -64,11 +75,12 @@ document.getElementById("month").innerHTML = months[date.getMonth()];
       todo_toggle.className = "todo_toggle";
       todo_text.setAttribute("type", "text");
       todo_text.readOnly = true;
-      // edit_btn.className="edit_btn";
-      //edit_icon.className="far fa-edit fa-2x";
+
+      edit_btn.className = "edit_btn";
+      edit_icon.className = "fa fa-edit fa-2x";
       delete_btn.className = "delete_btn";
       delete_icon.className = "fa fa-trash-o fa-2x";
-
+      edit_btn.appendChild(edit_icon);
       delete_btn.appendChild(delete_icon);
 
       todo_text.value = todoObj.todoText;
@@ -76,6 +88,7 @@ document.getElementById("month").innerHTML = months[date.getMonth()];
       // Build the todo item
       todo.appendChild(todo_toggle);
       todo.appendChild(todo_text);
+      todo.appendChild(edit_btn);
       todo.appendChild(delete_btn);
 
       // Add functionality to the todo item
@@ -90,7 +103,15 @@ document.getElementById("month").innerHTML = months[date.getMonth()];
       delete_btn.addEventListener("click", function () {
         todoList.deleteTodo(todoObj);
       });
-
+      edit_btn.addEventListener("click", function () {
+        todo_text.readOnly = false;
+      });
+      edit_btn.addEventListener("keypress", function () {
+        if (event.keyCode === 13 && todoList.newTodo.value !== "") {
+          todoList.addTodoEditData(todoObj);
+          todo_text.readOnly = "true";
+        }
+      });
       return todo;
     },
     generateTodoList: function () {
@@ -111,7 +132,6 @@ document.getElementById("month").innerHTML = months[date.getMonth()];
     },
     toggleEdit: function (todoObj, todo) {
       if (!todoObj.completed) {
-        todo.readOnly = false;
         todo.addEventListener("keyup", function () {
           todoObj.text = todo.value;
         });
