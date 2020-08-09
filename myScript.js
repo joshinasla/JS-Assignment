@@ -25,137 +25,143 @@ var months = [
 document.getElementById("day").innerHTML = days[date.getDay()];
 document.getElementById("date").innerHTML = date.getDate();
 document.getElementById("month").innerHTML = months[date.getMonth()];
-var addButton = document.getElementsByTagName("button")[0];
-addButton.onclick = addTask;
-var taskInput = document.getElementById("new-task");
-var incompleteTasks = document.getElementById("incomplete-tasks");
+(function () {
+  var todoList = {
+    todoData: localStorage.getItem("Todos"),
+    addBtn: document.getElementById("addBtn"),
+    // editBtn: document.getElementById("editBtn"),
+    newTodo: document.getElementById("newTodo"),
+    todos: [],
+    init: function () {
+      if (todoList.todoData) {
+        todoList.todos = JSON.parse(todoList.todoData);
+        todoList.generateTodoList();
+      }
+      this.bindUIActions();
+    },
+    addTodoData: function (todoText) {
+      this.todos.push({
+        todoText: todoText,
+        id: new Date().getUTCMilliseconds(),
+        completed: false,
+      });
+      console.log(todoText);
+      this.saveTodos();
+    },
+    createTodoItem: function (todoObj) {
+      //  Create  dom nodes/html elements for a single todo item
+      var todo = document.createElement("div"),
+        todo_toggle = document.createElement("div"),
+        todo_text = document.createElement("input"),
+        delete_btn = document.createElement("span"),
+        delete_icon = document.createElement("i");
 
-function addTask() {
-  console.log("add task...");
-  var inputValue = taskInput.value;
-  console.log("Element: " + inputValue);
-  var listItem = document.createTextNode(inputValue);
-  var newItem = document.createElement("li");
-  var x = document.createElement("IMG");
-  x.setAttribute("src", "img/edit-icon.png");
-  x.setAttribute("width", "15 px");
-  newItem.appendChild(x);
-  var y = document.createElement("IMG");
-  y.setAttribute("src", "img/delete-icon.png");
-  y.setAttribute("width", "15 px");
-  newItem.appendChild(y);
-  newItem.appendChild(listItem);
-  //var checkbox = document.createElement("checkbox");
-  //newItem.appendChild(checkbox);
-  //   newItem.append(
-  //     `<label class="checkbox" id="checkbox"
-  //   >` +
-  //       { listItem } +
-  //       `<input type="checkbox" /><span class="checkmark"></span
-  // ></label>
-  // <button class="edit">
-  //   <img src="img/edit-icon.png" alt="EDIT" />
-  // </button>
-  // <button class="delete">
-  //   <img src="img/delete-icon.png" alt="DELETE" />
-  // </button>`
-  //   );
-  //   var editButton = document.createElement("button");
-  //   newItem.appendChild(editButton);
-  //   var deleteButton = document.createElement("button");
-  //   newItem.appendChild(deleteButton);
-  //   document.getElementById("new-task").value = "";
-  //   var span = document.createElement("SPAN");
-  //   var txt = document.createTextNode("\u00D7");
-  //   span.className = "close";
-  //   span.appendChild(txt);
-  //   li.appendChild(span);
+      // Add classess to each element
+      todoObj.completed
+        ? (todo.className = "todo complete")
+        : (todo.className = "todo");
+      todo_toggle.className = "todo_toggle";
+      todo_toggle.className = "todo_toggle";
+      todo_text.setAttribute("type", "text");
+      todo_text.readOnly = true;
+      // edit_btn.className="edit_btn";
+      //edit_icon.className="far fa-edit fa-2x";
+      delete_btn.className = "delete_btn";
+      delete_icon.className = "fa fa-trash-o fa-2x";
 
-  //   for (i = 0; i < close.length; i++) {
-  //     close[i].onclick = function () {
-  //       var div = this.parentElement;
-  //       div.style.display = "none";
-  //     };
-  //   }
-  //   document.getElementById("incomplete-tasks"). = listItem;
-  incompleteTasks.appendChild(newItem);
-}
+      delete_btn.appendChild(delete_icon);
 
-var close = document.getElementsByClassName("delete");
-var i;
-for (i = 0; i < close.length; i++) {
-  close[i].onclick = function () {
-    var div = this.parentElement;
-    div.style.display = "none";
+      todo_text.value = todoObj.todoText;
+
+      // Build the todo item
+      todo.appendChild(todo_toggle);
+      todo.appendChild(todo_text);
+      todo.appendChild(delete_btn);
+
+      // Add functionality to the todo item
+      todo_text.addEventListener("click", function () {
+        todoList.toggleEdit(todoObj, this);
+      });
+
+      todo_toggle.addEventListener("click", function () {
+        todoList.toggleComplete(todoObj, todo);
+      });
+
+      delete_btn.addEventListener("click", function () {
+        todoList.deleteTodo(todoObj);
+      });
+
+      return todo;
+    },
+    generateTodoList: function () {
+      this.todoData = localStorage.getItem("Todos");
+      this.todos = JSON.parse(this.todoData);
+      // Sort Todos, put completed Todos at bottom
+      //this.todos.sort(compare);
+
+      document.querySelector(".todo-list").innerHTML = "";
+      this.todos.forEach(function (todo) {
+        document
+          .querySelector(".todo-list")
+          .appendChild(todoList.createTodoItem(todo));
+      });
+      document.querySelector(
+        "#remainingTodos"
+      ).innerHTML = this.remainingTodos();
+    },
+    toggleEdit: function (todoObj, todo) {
+      if (!todoObj.completed) {
+        todo.readOnly = false;
+        todo.addEventListener("keyup", function () {
+          todoObj.text = todo.value;
+        });
+        todo.addEventListener("blur", function () {
+          todoList.saveTodos();
+        });
+      }
+    },
+    toggleComplete: function (todoObj) {
+      todoObj.completed = !todoObj.completed;
+      this.saveTodos();
+      this.generateTodoList();
+    },
+    deleteTodo: function (todoObj) {
+      this.todos.splice(this.todos.indexOf(todoObj), 1);
+      this.saveTodos();
+      this.generateTodoList();
+    },
+
+    saveTodos: function () {
+      localStorage.setItem("Todos", JSON.stringify(this.todos));
+    },
+    remainingTodos: function () {
+      var remainingTodos = this.todos.filter(function (todo) {
+        if (todo.completed === false) {
+          return todo;
+        }
+      });
+      return remainingTodos.length;
+    },
+    bindUIActions: function () {
+      // Add a todo by pressing enter key
+      todoList.newTodo.addEventListener("keypress", function (event) {
+        if (event.keyCode === 13 && todoList.newTodo.value !== "") {
+          todoList.addTodoData(todoList.newTodo.value);
+          todoList.newTodo.value = "";
+          todoList.generateTodoList();
+        }
+      });
+
+      // On click of add button, add a todo to the list
+      todoList.addBtn.addEventListener("click", function () {
+        if (todoList.newTodo.value !== "") {
+          todoList.addTodoData(todoList.newTodo.value);
+          todoList.newTodo.value = "";
+          todoList.generateTodoList();
+        }
+      });
+    },
   };
-}
 
-var edit = document.getElementsByClassName("edit");
-var i;
-for (i = 0; i < edit.length; i++) {
-  edit[i].onclick = function () {
-    var listItem = this.parentNode;
-    var editInput = listItem.querySelector("input[type=text]");
-    var label = listItem.querySelector("label");
-    var containsClass = listItem.classList.contains("editMode");
-  
-    if (containsClass) {
-      
-      
-      label.innerText = editInput.value;
-    } else {
-      editInput.value = label.innerText;
-    }
-
-    /
-    listItem.classList.toggle("editMode");
-  };
-}
-
-var taskCompleted = function () {
-  console.log("Complete Task...");
-  var listItem = this.parentNode;
-  document.getElementById("completed-tasks").append(listItem);
-};
-var taskIncomplete = function () {
-  console.log("Incomplete Task...");
-  var listItem = this.parentNode;
-  document.getElementById("incomplete-tasks").appendChild(listItem);
-};
-// const ITEM = `<li class="clearfix"><label class="checkbox">${{
-//     toDo,
-//   }}<input type="checkbox" /><span class="checkmark"></span>
-//       </label>
-//       <button class="edit">
-//         <img src="img/edit-icon.png" alt="EDIT" />
-//       </button>
-//       <button class="delete">
-//         <img src="img/delete-icon.png" alt="DELETE" />
-//       </button>
-//     </li>`;
-//   var listItem = document.createTextNode(ITEM);
-//   var newItem = document.createElement("li");
-//   newItem.appendChild(listItem);
-//   document.getElementById("incomplete-tasks").appendChild(newItem);
-//   //incompleteTasks.insertAdjecentHTML(POSITION, ITEM);
-// }
-// addTask("hi");
-// {
-
-var editTask = function () {
-  console.log("Edit Task...");
-  console.log("Change 'edit' to 'save'");
-
-  var listItem = this.parentNode;
-
-  var editInput = listItem.querySelector("input[type=text]");
-  var label = listItem.querySelector("label");
-  var containsClass = listItem.classList.contains("editMode");
-  if (containsClass) {
-    label.innerText = editInput.value;
-  } else {
-    editInput.value = label.innerText;
-  }
-
-  listItem.classList.toggle("editMode");
-};
+  todoList.init();
+})();

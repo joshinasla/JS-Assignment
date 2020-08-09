@@ -31,7 +31,7 @@
             <p id="month"></p>
           </div>
           <div class="remaining-class">
-            <span id="remaining-class-number"></span>
+            <span id="remainingTodos"></span>
             Tasks
           </div>
         </div>
@@ -42,57 +42,28 @@
       </div>
       <br />
       <div class="add-task for-max-width">
-        <input class="new-task" id="new-task" type="text" /><button id="enter" class="add">
-          <i class="fa fa-plus plus"></i>
+        <input
+          class="new-task"
+          id="newTodo"
+          type="text"
+          placeholder="Add a New Task"
+        />
+        <button id="addBtn" class="add">
+          <i class="fa fa-plus-circle fa-2x"></i>
         </button>
       </div>
       <div>
         <hr />
         <span class="float-item">TO-DO</span>
       </div>
-      <div class="for-max-width">
-        <ul id="incomplete-tasks">
-          <li class="clearfix">
-            <label class="checkbox" id="checkbox"
-              >Pay Bills <input type="checkbox" /></span
-            ></label>
-            <button class="edit">
-              <img src="img/edit-icon.png" alt="EDIT" />
-            </button>
-            <button class="delete">
-              <img src="img/delete-icon.png" alt="DELETE" />
-            </button>
-          </li>
-          <li class="clearfix">
-            <label class="checkbox"
-              >Go Shopping <input type="checkbox" /></span></label
-            ><input type="text" value="Go Shopping" /><button class="edit">
-              <img src="img/edit-icon.png" alt="EDIT" /></button
-            ><button class="delete">
-              <img src="img/delete-icon.png" alt="DELETE" />
-            </button>
-          </li>
-        </ul>
-      </div>
+      <div class="for-max-width todo-list"></div>
       <div>
         <hr />
         <span class="float-item">DONE</span>
       </div>
-      <div class="for-max-width">
-        <ul id="completed-tasks ">
-          <li>
-            <label class="checkbox completed"
-              >See the Doctor<input type="checkbox" checked />
-            </label>
-            <input type="text" /><button class="edit">
-              <img src="img/edit-icon.png" alt="EDIT" /></button
-            ><button class="delete">
-              <img src="img/delete-icon.png" alt="DELETE" />
-            </button>
-          </li>
-        </ul>
-      </div>
+      <div class="for-max-width task-completed" id="showCompletedTodos"></div>
     </div>
+
     <script src="myScript.js"></script>
   </body>
 </html>
