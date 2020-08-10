@@ -49,13 +49,14 @@ document.getElementById("month").innerHTML = months[date.getMonth()];
       this.saveTodos();
     },
     addTodoEditData: function (todoText) {
-      this.todos.push({
+      this.todos.insertbefore({
         todoText: todoText,
         id: new Date().getUTCMilliseconds(),
         completed: true,
       });
       console.log(todoText);
       this.saveTodos();
+      this.generateTodoList();
     },
     createTodoItem: function (todoObj) {
       //  Create  dom nodes/html elements for a single todo item
@@ -108,7 +109,8 @@ document.getElementById("month").innerHTML = months[date.getMonth()];
       });
       edit_btn.addEventListener("keypress", function () {
         if (event.keyCode === 13 && todoList.newTodo.value !== "") {
-          todoList.addTodoEditData(todoObj);
+          localStorage.removeItem("Todos", JSON.stringify(this.todos));
+          todoList.addTodoEditData(todo_text);
           todo_text.readOnly = "true";
         }
       });
@@ -119,6 +121,7 @@ document.getElementById("month").innerHTML = months[date.getMonth()];
       this.todos = JSON.parse(this.todoData);
       // Sort Todos, put completed Todos at bottom
       //this.todos.sort(compare);
+      this.todos = this.todos.reverse();
 
       document.querySelector(".todo-list").innerHTML = "";
       this.todos.forEach(function (todo) {
@@ -144,6 +147,7 @@ document.getElementById("month").innerHTML = months[date.getMonth()];
       todoObj.completed = !todoObj.completed;
       this.saveTodos();
       this.generateTodoList();
+      this.completeTodos();
     },
     deleteTodo: function (todoObj) {
       this.todos.splice(this.todos.indexOf(todoObj), 1);
@@ -161,6 +165,17 @@ document.getElementById("month").innerHTML = months[date.getMonth()];
         }
       });
       return remainingTodos.length;
+    },
+    completeTodos: function () {
+      let todoList = this.parentNode;
+      let parent = todoList.parentNode;
+      let id = parent.id;
+      let target =
+        id === "todo"
+          ? document.getElementById("showCompletedTodos")
+          : document.getElementById("todo-list");
+      removeEventListener.removerChild(todoList);
+      target.insertBefore(todoList, target.childNodes[0]);
     },
     bindUIActions: function () {
       // Add a todo by pressing enter key
